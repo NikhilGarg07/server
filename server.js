@@ -5,16 +5,8 @@ const io = require('socket.io')(8000, {
     }
 });
 
-var users = Array();
-
 io.on('connection', (socket) => {
-    console.log('connection established', socket.id);
     socket.emit("me", socket.id)
-
-    socket.on('syncplayers', function(user) {
-        console.log("syncplayers(user)");
-        users = user;
-    });
 
     socket.on("disconnect", () => {
         socket.broadcast.emit("callEnded")
@@ -25,6 +17,6 @@ io.on('connection', (socket) => {
     })
 
     socket.on("answerCall", (data) => {
-        io.to(data.to).emit("callAccepted", data.signal)
+        io.to(data.to).emit("callAccepted", data)
     })
 });
