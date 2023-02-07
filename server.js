@@ -17,6 +17,10 @@ io.on('connection', (socket) => {
     })
 
     socket.on("answerCall", (data) => {
-        io.to(data.to).emit("callAccepted", data)
+        io.to(data.to).emit("callAccepted", data);
+    })
+
+    socket.on('send-avatar-data', data => {
+        io.to(data.to).emit('get-avatar', data);
     })
 });
